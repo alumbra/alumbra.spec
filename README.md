@@ -6,6 +6,7 @@ is a clear description of the interfaces between the different GraphQL
 components to allow for pluggable implementations.
 
 [![Clojars Project](https://img.shields.io/clojars/v/alumbra/spec.svg)](https://clojars.org/alumbra/spec)
+[![Build Status](https://travis-ci.org/alumbra/alumbra.spec.svg?branch=master)](https://travis-ci.org/alumbra/alumbra.spec)
 
 [cljspec]: http://clojure.org/guides/spec
 

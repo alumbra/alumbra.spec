@@ -5,7 +5,7 @@
 ;; ## Error Container
 
 (s/def :validator/errors
-  (s/coll-of :validator-error
+  (s/coll-of :validator/error
              :gen-max 2))
 
 (s/def :validator/error-class
