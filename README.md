@@ -25,7 +25,7 @@ __`:graphql/schema`__
 
 Describes the AST of a GraphQL schema.
 
-__`:graphql/canonical-document`__ (planned)
+__`:graphql/canonical-document`__
 
 Describes a canonical, self-contained format for a GraphQL document that
 can be interpreted without further knowledge of the GraphQL schema.
