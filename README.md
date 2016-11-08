@@ -30,6 +30,11 @@ __`:graphql/canonical-document`__ (planned)
 Describes a canonical, self-contained format for a GraphQL document that
 can be interpreted without further knowledge of the GraphQL schema.
 
+__`:validator/errors`__
+
+Describes a seq of validation errors for a given GraphQL schema and query
+document.
+
 ## License
 
 ```

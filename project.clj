@@ -6,4 +6,5 @@
             :year 2016
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]]
+  :profiles {:dev {:dependencies [[org.clojure/test.check "0.9.0"]]}}
   :pedantic? :abort)
