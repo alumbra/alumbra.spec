@@ -11,7 +11,8 @@
          (every? :graphql/operation-name %))))
 
 (s/def :graphql/canonical-operation
-  (s/keys :req [:graphql/canonical-selection]
+  (s/keys :req [:graphql/canonical-selection
+                :graphql/operation-type]
           :opt [:graphql/operation-name]))
 
 (s/def :graphql/canonical-selection
