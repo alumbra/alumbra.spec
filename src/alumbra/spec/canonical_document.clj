@@ -46,7 +46,11 @@
 (s/def :graphql/canonical-field
   (s/merge
     (s/multi-spec canonical-field :graphql/canonical-field-type)
-    (s/keys :req [:graphql/field-name])))
+    (s/keys :req [:graphql/field-name]
+            :opt [:graphql/canonical-field-type-condition])))
+
+(s/def :graphql/canonical-field-type-condition
+  :graphql/type-name)
 
 (s/def :graphql/canonical-arguments
   (s/map-of :graphql/argument-name :graphql/canonical-value
