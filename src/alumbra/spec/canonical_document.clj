@@ -63,4 +63,14 @@
         :variable symbol?
         :integer  integer?
         :float    float?
-        :boolean  boolean?))
+        :boolean  boolean?
+        :object   :graphql/canonical-object
+        :list     :graphql/canonical-list))
+
+(s/def :graphql/canonical-object
+  (s/map-of string? :graphql/canonical-value
+            :gen-max 2))
+
+(s/def :graphql/canonical-list
+  (s/coll-of :graphql/canonical-value
+             :gen-max 2))
