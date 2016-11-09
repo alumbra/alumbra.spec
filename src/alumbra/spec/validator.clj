@@ -11,6 +11,7 @@
 (s/def :validator/error-class
   #{:operation/name-unique
     :operation/lone-anonymous
+    :operation/required-variables-given
 
     :field/selection-in-scope
     :field/selection-mergeable
