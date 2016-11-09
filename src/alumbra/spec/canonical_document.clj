@@ -2,6 +2,17 @@
   (:require [clojure.spec :as s]
             [alumbra.spec document]))
 
+;; ## Document
+;;
+;; The idea here is that, for execution, the concepts of fragments or variables
+;; are no longer relevant. We just need a resolved description of the query,
+;; providing:
+;;
+;; - which fields are requested,
+;; - which leaves are lists, objects, scalars.
+;; - which scalar type leaves have.
+;; - which fields can be null, which can't.
+
 (s/def :graphql/canonical-document
   (s/and
     (s/coll-of :graphql/canonical-operation
@@ -10,10 +21,14 @@
     #(or (= (count %) 1)
          (every? :graphql/operation-name %))))
 
+;; ## Operation
+
 (s/def :graphql/canonical-operation
   (s/keys :req [:graphql/canonical-selection
                 :graphql/operation-type]
           :opt [:graphql/operation-name]))
+
+;; ## Selection
 
 (s/def :graphql/canonical-selection
   (s/map-of :graphql/field-alias :graphql/canonical-field
@@ -53,9 +68,13 @@
 (s/def :graphql/canonical-field-type-condition
   :graphql/type-name)
 
+;; ## Arguments
+
 (s/def :graphql/canonical-arguments
   (s/map-of :graphql/argument-name :graphql/canonical-value
             :gen-max 2))
+
+;; ## Values
 
 (s/def :graphql/canonical-value
   (s/or :string   string?
