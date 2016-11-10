@@ -30,6 +30,11 @@ __`:alumbra.spec.validator/errors`__
 Describes a seq of validation errors for a given GraphQL schema and query
 document.
 
+__`:alumbra.spec.analyzer/schema`__
+
+An analyzed version of a GraphQL schema, removing AST-specific information like
+metadata and providing maps where appropriate.
+
 ## License
 
 ```
