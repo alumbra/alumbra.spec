@@ -10,6 +10,10 @@ components to allow for pluggable implementations.
 
 [cljspec]: http://clojure.org/guides/spec
 
+## Usage
+
+(require 'alumbra.spec)
+
 ## Available Specs
 
 __`:alumbra/document`__
