@@ -9,6 +9,7 @@
   ::fragment-name
   ::operation-name
   ::variable-name
+  ::type-name
   ::row
   ::column
   ::index)
@@ -107,7 +108,7 @@
                 ::containing-type-name]))
 
 (s/def ::containing-type-name
-  ::common/type-name)
+  ::type-name)
 
 (s/def ::field-names
   (s/coll-of ::field-name
@@ -148,7 +149,7 @@
                 ::required-argument-names]))
 
 (s/def ::argument-type-name
-  ::common/type-name)
+  ::type-name)
 
 (s/def ::required-argument-names
   (s/coll-of ::argument-name
@@ -198,7 +199,7 @@
                 ::cycle-fragment-edges]))
 
 (s/def ::fragment-type-name
-  ::common/type-name)
+  ::type-name)
 
 (s/def ::cycle-fragment-names
   (s/coll-of ::fragment-name
@@ -282,4 +283,4 @@
                 ::argument-type-name]))
 
 (s/def ::variable-type-name
-  ::common/type-name)
+  ::type-name)

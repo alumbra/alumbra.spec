@@ -14,16 +14,6 @@
   ::non-null?
   ::operation-type)
 
-;; ## Value
-
-(s/def ::value
-  (s/merge
-    ::common/value
-    (s/keys :req [::metadata])))
-
-(s/def ::constant
-  (s/and ::value #(not= (::common/value-type %) :variable)))
-
 ;; ## Schema
 
 (s/def ::schema
@@ -252,11 +242,6 @@
 ;; ### Dispatch
 
 (defmulti graphql-value-data ::value-type)
-
-(defmethod graphql-value-data :variable
-  [_]
-  (s/keys :req [::value-type
-                ::variable-name]))
 
 (defmethod graphql-value-data :integer
   [_]

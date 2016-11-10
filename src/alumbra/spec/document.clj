@@ -208,7 +208,7 @@
     (s/keys :req [::metadata])))
 
 (s/def ::constant
-  (s/and ::value #(not= (::common/value-type %) :variable)))
+  (s/and ::value #(not= (::value-type %) :variable)))
 
 (s/def ::argument-value
   ::value)
