@@ -10,28 +10,22 @@ components to allow for pluggable implementations.
 
 [cljspec]: http://clojure.org/guides/spec
 
-## Usage
-
-```clojure
-(require 'alumbra.spec)
-```
-
 ## Available Specs
 
-__`:graphql/document`__
+__`:alumbra.spec.document/document`__
 
 Describes the AST of a GraphQL document.
 
-__`:graphql/schema`__
+__`:alumbra.spec.schema/schema`__
 
 Describes the AST of a GraphQL schema.
 
-__`:graphql/canonical-document`__
+__`:alumbra.spec.canonical-document/document`__
 
 Describes a canonical, self-contained format for a GraphQL document that
 can be interpreted without further knowledge of the GraphQL schema.
 
-__`:validator/errors`__
+__`:alumbra.spec.validator/errors`__
 
 Describes a seq of validation errors for a given GraphQL schema and query
 document.

@@ -1,6 +1,16 @@
 (ns alumbra.spec.canonical-document
   (:require [clojure.spec :as s]
-            [alumbra.spec document]))
+            [alumbra.spec.common :as common]))
+
+(common/import-specs
+  ::argument-name
+  ::type-name
+  ::field-name
+  ::non-null?
+  ::value-type
+  ::operation-name
+  ::operation-type
+  ::field-alias)
 
 ;; ## Document
 ;;
@@ -13,83 +23,83 @@
 ;; - which scalar type leaves have.
 ;; - which fields can be null, which can't.
 
-(s/def :graphql/canonical-document
+(s/def ::document
   (s/and
-    (s/coll-of :graphql/canonical-operation
+    (s/coll-of ::operation
                :min-count 1
                :gen-max 3)
     #(or (= (count %) 1)
-         (every? :graphql/operation-name %))))
+         (every? ::operation-name %))))
 
 ;; ## Operation
 
-(s/def :graphql/canonical-operation
-  (s/keys :req [:graphql/canonical-selection
-                :graphql/operation-type]
-          :opt [:graphql/operation-name]))
+(s/def ::operation
+  (s/keys :req [::selection-set
+                ::operation-type]
+          :opt [::operation-name]))
 
 ;; ## Selection
 
-(s/def :graphql/canonical-selection
-  (s/map-of :graphql/field-alias :graphql/canonical-field
+(s/def ::selection-set
+  (s/map-of ::field-alias ::field
             :min-count 1
             :gen-max 2))
 
-(s/def :graphql/canonical-field-type
+(s/def ::field-type
   #{:leaf :object :list})
 
-(defmulti canonical-field :graphql/canonical-field-type)
+(defmulti canonical-field ::field-type)
 
 (defmethod canonical-field :leaf
   [_]
-  (s/keys :req [:graphql/canonical-field-type
-                :graphql/value-type
-                :graphql/non-null?
-                :graphql/canonical-arguments]))
+  (s/keys :req [::field-type
+                ::value-type
+                ::non-null?
+                ::arguments]))
 
 (defmethod canonical-field :object
   [_]
-  (s/keys :req [:graphql/canonical-field-type
-                :graphql/non-null?
-                :graphql/canonical-selection]))
+  (s/keys :req [::field-type
+                ::non-null?
+                ::selection-set]))
 
 (defmethod canonical-field :list
   [_]
-  (s/keys :req [:graphql/canonical-field-type
-                :graphql/non-null?
-                :graphql/canonical-field]))
+  (s/keys :req [::field-type
+                ::non-null?
+                ::field]))
 
-(s/def :graphql/canonical-field
+(s/def ::field
   (s/merge
-    (s/multi-spec canonical-field :graphql/canonical-field-type)
-    (s/keys :req [:graphql/field-name]
-            :opt [:graphql/canonical-field-type-condition])))
+    (s/multi-spec canonical-field ::field-type)
+    (s/keys :req [::field-name]
+            :opt [::field-type-condition])))
 
-(s/def :graphql/canonical-field-type-condition
-  :graphql/type-name)
+(s/def ::field-type-condition
+  ::type-name)
 
 ;; ## Arguments
 
-(s/def :graphql/canonical-arguments
-  (s/map-of :graphql/argument-name :graphql/canonical-value
+(s/def ::arguments
+  (s/map-of ::argument-name ::value
             :gen-max 2))
 
 ;; ## Values
 
-(s/def :graphql/canonical-value
+(s/def ::value
   (s/or :string   string?
         :enum     keyword?
         :variable symbol?
         :integer  integer?
         :float    float?
         :boolean  boolean?
-        :object   :graphql/canonical-object
-        :list     :graphql/canonical-list))
+        :object   ::object
+        :list     ::list))
 
-(s/def :graphql/canonical-object
-  (s/map-of string? :graphql/canonical-value
+(s/def ::object
+  (s/map-of string? ::value
             :gen-max 2))
 
-(s/def :graphql/canonical-list
-  (s/coll-of :graphql/canonical-value
+(s/def ::list
+  (s/coll-of ::value
              :gen-max 2))

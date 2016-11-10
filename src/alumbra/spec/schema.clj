@@ -1,191 +1,223 @@
 (ns alumbra.spec.schema
   (:require [clojure.spec :as s]
-            [alumbra.spec document]))
+            [alumbra.spec
+             [common :as common]
+             [document :as document]]))
+
+(common/import-specs
+  ::metadata
+  ::argument-name
+  ::argument-type
+  ::argument-default-value
+  ::directive-name
+  ::field-name
+  ::type-name
+  ::type
+  ::enum
+  ::integer
+  ::operation-type)
 
 ;; ## Schema
 
-(s/def :graphql/schema
-  (s/keys :req [:graphql/metadata]
-          :opt [:graphql/type-definitions
-                :graphql/input-type-definitions
-                :graphql/type-extensions
-                :graphql/interface-definitions
-                :graphql/schema-definitions
-                :graphql/enum-definitions
-                :graphql/scalar-definitions
-                :graphql/directive-definitions
-                :graphql/union-definitions]))
+(s/def ::schema
+  (s/keys :req [::metadata]
+          :opt [::type-definitions
+                ::input-type-definitions
+                ::type-extensions
+                ::interface-definitions
+                ::schema-definitions
+                ::enum-definitions
+                ::scalar-definitions
+                ::directive-definitions
+                ::union-definitions]))
 
 ;; ## Type Definition/Extension
 
-(s/def :graphql/type-definitions
-  (s/coll-of :graphql/type-definition
+(s/def ::type-definitions
+  (s/coll-of ::type-definition
              :gen-max 4))
 
-(s/def :graphql/type-extensions
-  (s/coll-of :graphql/type-definition
+(s/def ::type-extensions
+  (s/coll-of ::type-definition
              :gen-max 2))
 
-(s/def :graphql/type-definition
-  (s/keys :req [:graphql/type-name
-                :graphql/type-fields
-                :graphql/metadata]
-          :opt [:graphql/interface-types]))
+(s/def ::type-definition
+  (s/keys :req [::type-fields
+                ::type-name
+                ::metadata]
+          :opt [::interface-types]))
 
-(s/def :graphql/interface-types
-  (s/coll-of :graphql/interface-type
+(s/def ::interface-types
+  (s/coll-of ::interface-type
              :min-count 1
              :gen-max 3))
 
-(s/def :graphql/interface-type
-  (s/keys :req [:graphql/type-name
-                :graphql/metadata]))
+(s/def ::interface-type
+  (s/keys :req [::type-name
+                ::metadata]))
 
-(s/def :graphql/type-fields
-  (s/coll-of :graphql/type-field
+(s/def ::type-fields
+  (s/coll-of ::type-field
              :min-count 1
              :gen-max 3))
 
-(s/def :graphql/type-field
-  (s/keys :req [:graphql/field-name
-                :graphql/type
-                :graphql/metadata]
-          :opt [:graphql/type-field-arguments]))
+(s/def ::type-field
+  (s/keys :req [::field-name
+                ::type
+                ::metadata]
+          :opt [::arguments]))
 
-(s/def :graphql/type-field-arguments
-  (s/coll-of :graphql/type-field-argument
+(s/def ::arguments
+  (s/coll-of ::argument
              :min-count 1
              :gen-max 3))
 
-(s/def :graphql/type-field-argument
-  (s/keys :req [:graphql/argument-name
-                :graphql/argument-type
-                :graphql/metadata]
-          :opt [:graphql/argument-default-value]))
-
-(s/def :graphql/argument-type
-  :graphql/type)
-
-(s/def :graphql/argument-default-value
-  (s/and :graphql/constant
-         (comp
-           #{:integer :float :boolean :string :enum}
-           :graphql/value-type)))
+(s/def ::argument
+  (s/keys :req [::argument-name
+                ::argument-type
+                ::metadata]
+          :opt [::argument-default-value]))
 
 ;; ## Input Type Definition
 
-(s/def :graphql/input-type-definitions
-  (s/coll-of :graphql/input-type-definition
+(s/def ::input-type-definitions
+  (s/coll-of ::input-type-definition
              :gen-max 4))
 
-(s/def :graphql/input-type-definition
-  (s/keys :req [:graphql/type-name
-                :graphql/input-type-fields
-                :graphql/metadata]))
+(s/def ::input-type-definition
+  (s/keys :req [::input-type-fields
+                ::type-name
+                ::metadata]))
 
-(s/def :graphql/input-type-fields
-  (s/coll-of :graphql/input-type-field
+(s/def ::input-type-fields
+  (s/coll-of ::input-type-field
              :min-count 1
              :gen-max 3))
 
-(s/def :graphql/input-type-field
-  (s/keys :req [:graphql/field-name
-                :graphql/type
-                :graphql/metadata]))
+(s/def ::input-type-field
+  (s/keys :req [::field-name
+                ::type
+                ::metadata]))
 
 ;; ## Interface Definition
 
-(s/def :graphql/interface-definitions
-  (s/coll-of :graphql/interface-definition
+(s/def ::interface-definitions
+  (s/coll-of ::interface-definition
              :gen-max 2))
 
-(s/def :graphql/interface-definition
-  (s/keys :req [:graphql/type-name
-                :graphql/type-fields
-                :graphql/metadata]))
+(s/def ::interface-definition
+  (s/keys :req [::type-fields
+                ::type-name
+                ::metadata]))
 
 ;; ## Scalar Definition
 
-(s/def :graphql/scalar-definitions
-  (s/coll-of :graphql/scalar-definition
+(s/def ::scalar-definitions
+  (s/coll-of ::scalar-definition
              :gen-max 2))
 
-(s/def :graphql/scalar-definition
-  (s/keys :req [:graphql/type-name
-                :graphql/metadata]))
+(s/def ::scalar-definition
+  (s/keys :req [::type-name
+                ::metadata]))
 
 ;; ## Directive Definition
 
-(s/def :graphql/directive-definitions
-  (s/coll-of :graphql/directive-definition
+(s/def ::directive-definitions
+  (s/coll-of ::directive-definition
              :gen-max 1))
 
-(s/def :graphql/directive-definition
-  (s/keys :req [:graphql/directive-name
-                :graphql/type-condition
-                :graphql/metadata]))
+(s/def ::directive-definition
+  (s/keys :req [::directive-locations
+                ::directive-name
+                ::metadata]
+          :opt [::arguments]))
+
+(s/def ::directive-locations
+  (s/coll-of ::directive-location
+             :min-count 1
+             :gen-max 2))
+
+(s/def ::directive-location
+  #{:query
+    :mutation
+    :subscription
+    :field
+    :fragment-definition
+    :fragment-spread
+    :inline-fragment
+    :schema
+    :scalar
+    :object
+    :field-definition
+    :argument-definition
+    :interface
+    :union
+    :enum
+    :enum-value
+    :input-object
+    :input-field-definition})
 
 ;; ## Union Definition
 
-(s/def :graphql/union-definitions
-  (s/coll-of :graphql/union-definition
+(s/def ::union-definitions
+  (s/coll-of ::union-definition
              :gen-max 2))
 
-(s/def :graphql/union-definition
-  (s/keys :req [:graphql/type-name
-                :graphql/union-types
-                :graphql/metadata]))
+(s/def ::union-definition
+  (s/keys :req [::union-types
+                ::type-name
+                ::metadata]))
 
-(s/def :graphql/union-types
-  (s/coll-of :graphql/union-type
+(s/def ::union-types
+  (s/coll-of ::union-type
              :min-count 1
              :gen-max 3))
 
-(s/def :graphql/union-type
-  (s/keys :req [:graphql/type-name
-                :graphql/metadata]))
+(s/def ::union-type
+  (s/keys :req [::type-name
+                ::metadata]))
 
 ;; ## Enum Definition
 
-(s/def :graphql/enum-definitions
-  (s/coll-of :graphql/enum-definition
+(s/def ::enum-definitions
+  (s/coll-of ::enum-definition
              :gen-max 2))
 
-(s/def :graphql/enum-definition
-  (s/keys :req [:graphql/type-name
-                :graphql/enum-fields
-                :graphql/metadata]))
+(s/def ::enum-definition
+  (s/keys :req [::enum-fields
+                ::type-name
+                ::metadata]))
 
-(s/def :graphql/enum-fields
-  (s/coll-of :graphql/enum-field
+(s/def ::enum-fields
+  (s/coll-of ::enum-field
              :min-count 1
              :gen-max 3))
 
-(s/def :graphql/enum-field
-  (s/keys :req [:graphql/enum
-                :graphql/metadata]
-          :opt [:graphql/integer]))
+(s/def ::enum-field
+  (s/keys :req [::enum
+                ::metadata]
+          :opt [::integer]))
 
 ;; ## Schema Definition
 
-(s/def :graphql/schema-definitions
-  (s/coll-of :graphql/schema-definition
+(s/def ::schema-definitions
+  (s/coll-of ::schema-definition
              :gen-max 1))
 
-(s/def :graphql/schema-definition
-  (s/keys :req [:graphql/schema-fields
-                :graphql/metadata]))
+(s/def ::schema-definition
+  (s/keys :req [::schema-fields
+                ::metadata]))
 
-(s/def :graphql/schema-fields
-  (s/coll-of :graphql/schema-field
+(s/def ::schema-fields
+  (s/coll-of ::schema-field
              :min-count 1
              :gen-max 3))
 
-(s/def :graphql/schema-field
-  (s/keys :req [:graphql/operation-type
-                :graphql/schema-type
-                :graphql/metadata]))
+(s/def ::schema-field
+  (s/keys :req [::schema-type
+                ::operation-type
+                ::metadata]))
 
-(s/def :graphql/schema-type
-  (s/keys :req [:graphql/type-name
-                :graphql/metadata]))
+(s/def ::schema-type
+  (s/keys :req [::type-name
+                ::metadata]))
