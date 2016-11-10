@@ -50,14 +50,14 @@
   (s/keys :req [:alumbra/field-name
                 :alumbra/type
                 :alumbra/metadata]
-          :opt [:alumbra/arguments]))
+          :opt [:alumbra/type-field-arguments]))
 
-(s/def :alumbra/arguments
-  (s/coll-of :alumbra/argument
+(s/def :alumbra/type-field-arguments
+  (s/coll-of :alumbra/type-field-argument
              :min-count 1
              :gen-max 3))
 
-(s/def :alumbra/argument
+(s/def :alumbra/type-field-argument
   (s/keys :req [:alumbra/argument-name
                 :alumbra/argument-type
                 :alumbra/metadata]
