@@ -7,15 +7,22 @@
 (common/import-specs
   ::metadata
   ::argument-name
-  ::argument-type
-  ::argument-default-value
   ::directive-name
   ::field-name
   ::type-name
-  ::type
-  ::enum
-  ::integer
+  ::variable-name
+  ::non-null?
   ::operation-type)
+
+;; ## Value
+
+(s/def ::value
+  (s/merge
+    ::common/value
+    (s/keys :req [::metadata])))
+
+(s/def ::constant
+  (s/and ::value #(not= (::common/value-type %) :variable)))
 
 ;; ## Schema
 
@@ -76,7 +83,7 @@
   (s/keys :req [::argument-name
                 ::argument-type
                 ::metadata]
-          :opt [::argument-default-value]))
+          :opt [::default-value]))
 
 ;; ## Input Type Definition
 
@@ -134,7 +141,7 @@
 
 (s/def ::directive-locations
   (s/coll-of ::directive-location
-             :min-count 1
+             ;; TODO :min-count 1
              :gen-max 2))
 
 (s/def ::directive-location
@@ -221,3 +228,93 @@
 (s/def ::schema-type
   (s/keys :req [::type-name
                 ::metadata]))
+
+;; ## Value
+
+(s/def ::value-type
+  #{:integer :float :string :boolean :enum})
+
+(s/def ::integer
+  integer?)
+
+(s/def ::float
+  float?)
+
+(s/def ::string
+  string?)
+
+(s/def ::boolean
+  boolean?)
+
+(s/def ::enum
+  ::common/name)
+
+;; ### Dispatch
+
+(defmulti graphql-value-data ::value-type)
+
+(defmethod graphql-value-data :variable
+  [_]
+  (s/keys :req [::value-type
+                ::variable-name]))
+
+(defmethod graphql-value-data :integer
+  [_]
+  (s/keys :req [::value-type
+                ::integer]))
+
+(defmethod graphql-value-data :float
+  [_]
+  (s/keys :req [::value-type
+                ::float]))
+
+(defmethod graphql-value-data :string
+  [_]
+  (s/keys :req [::value-type
+                ::string]))
+
+(defmethod graphql-value-data :boolean
+  [_]
+  (s/keys :req [::value-type
+                ::boolean]))
+
+(defmethod graphql-value-data :enum
+  [_]
+  (s/keys :req [::value-type
+                ::enum]))
+
+(s/def ::default-value
+  (s/merge
+    (s/multi-spec graphql-value-data ::value-type)
+    (s/keys :req [::metadata])))
+
+;; ## Types
+
+(s/def ::type-class
+  #{:named-type
+    :list-type})
+
+(defmulti ^:private type-class ::type-class)
+
+(defmethod type-class :named-type
+  [_]
+  (s/keys :req [::type-class
+                ::type-name
+                ::non-null?
+                ::metadata]))
+
+(defmethod type-class :list-type
+  [_]
+  (s/keys :req [::type-class
+                ::element-type
+                ::non-null?
+                ::metadata]))
+
+(s/def ::type
+  (s/multi-spec type-class ::type-class))
+
+(s/def ::element-type
+  ::type)
+
+(s/def ::argument-type
+  ::type)

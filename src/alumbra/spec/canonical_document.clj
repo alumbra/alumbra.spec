@@ -7,7 +7,6 @@
   ::type-name
   ::field-name
   ::non-null?
-  ::value-type
   ::operation-name
   ::operation-type
   ::field-alias)
@@ -44,6 +43,10 @@
   (s/map-of ::field-alias ::field
             :min-count 1
             :gen-max 2))
+
+(s/def ::value-type
+  #{:integer :float :string
+    :boolean :enum :object :list})
 
 (s/def ::field-type
   #{:leaf :object :list})
