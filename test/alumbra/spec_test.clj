@@ -9,16 +9,16 @@
              [validator :as validator]]))
 
 (deftest t-analyzer-spec
-  (is (= 100 (count (s/exercise ::analyzer/schema 100)))))
+  (is (= 100 (count (s/exercise :alumbra/analyzed-schema 100)))))
 
 (deftest t-document-spec
-  (is (= 100 (count (s/exercise ::document/document 100)))))
+  (is (= 100 (count (s/exercise :alumbra/document 100)))))
 
 (deftest t-schema-spec
-  (is (= 100 (count (s/exercise ::schema/schema 100)))))
+  (is (= 100 (count (s/exercise :alumbra/schema 100)))))
 
 (deftest t-validator-spec
-  (is (= 100 (count (s/exercise ::validator/errors 100)))))
+  (is (= 100 (count (s/exercise :alumbra/validation-errors 100)))))
 
 (deftest t-canonical-document-spec
-  (is (= 100 (count (s/exercise ::canonical/document 100)))))
+  (is (= 100 (count (s/exercise :alumbra/canonical-document 100)))))

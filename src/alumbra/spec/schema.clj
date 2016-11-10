@@ -1,305 +1,183 @@
 (ns alumbra.spec.schema
   (:require [clojure.spec :as s]
-            [alumbra.spec
-             [common :as common]
-             [document :as document]]))
-
-(common/import-specs
-  ::metadata
-  ::argument-name
-  ::directive-name
-  ::field-name
-  ::type-name
-  ::variable-name
-  ::non-null?
-  ::operation-type)
+            [alumbra.spec common]))
 
 ;; ## Schema
 
-(s/def ::schema
-  (s/keys :req [::metadata]
-          :opt [::type-definitions
-                ::input-type-definitions
-                ::type-extensions
-                ::interface-definitions
-                ::schema-definitions
-                ::enum-definitions
-                ::scalar-definitions
-                ::directive-definitions
-                ::union-definitions]))
+(s/def :alumbra/schema
+  (s/keys :req [:alumbra/metadata]
+          :opt [:alumbra/type-definitions
+                :alumbra/input-type-definitions
+                :alumbra/type-extensions
+                :alumbra/interface-definitions
+                :alumbra/schema-definitions
+                :alumbra/enum-definitions
+                :alumbra/scalar-definitions
+                :alumbra/directive-definitions
+                :alumbra/union-definitions]))
 
 ;; ## Type Definition/Extension
 
-(s/def ::type-definitions
-  (s/coll-of ::type-definition
+(s/def :alumbra/type-definitions
+  (s/coll-of :alumbra/type-definition
              :gen-max 4))
 
-(s/def ::type-extensions
-  (s/coll-of ::type-definition
+(s/def :alumbra/type-extensions
+  (s/coll-of :alumbra/type-definition
              :gen-max 2))
 
-(s/def ::type-definition
-  (s/keys :req [::type-fields
-                ::type-name
-                ::metadata]
-          :opt [::interface-types]))
+(s/def :alumbra/type-definition
+  (s/keys :req [:alumbra/type-fields
+                :alumbra/type-name
+                :alumbra/metadata]
+          :opt [:alumbra/interface-types]))
 
-(s/def ::interface-types
-  (s/coll-of ::interface-type
+(s/def :alumbra/interface-types
+  (s/coll-of :alumbra/interface-type
              :min-count 1
              :gen-max 3))
 
-(s/def ::interface-type
-  (s/keys :req [::type-name
-                ::metadata]))
+(s/def :alumbra/interface-type
+  (s/keys :req [:alumbra/type-name
+                :alumbra/metadata]))
 
-(s/def ::type-fields
-  (s/coll-of ::type-field
+(s/def :alumbra/type-fields
+  (s/coll-of :alumbra/type-field
              :min-count 1
              :gen-max 3))
 
-(s/def ::type-field
-  (s/keys :req [::field-name
-                ::type
-                ::metadata]
-          :opt [::arguments]))
+(s/def :alumbra/type-field
+  (s/keys :req [:alumbra/field-name
+                :alumbra/type
+                :alumbra/metadata]
+          :opt [:alumbra/arguments]))
 
-(s/def ::arguments
-  (s/coll-of ::argument
+(s/def :alumbra/arguments
+  (s/coll-of :alumbra/argument
              :min-count 1
              :gen-max 3))
 
-(s/def ::argument
-  (s/keys :req [::argument-name
-                ::argument-type
-                ::metadata]
-          :opt [::default-value]))
+(s/def :alumbra/argument
+  (s/keys :req [:alumbra/argument-name
+                :alumbra/argument-type
+                :alumbra/metadata]
+          :opt [:alumbra/argument-default-value]))
 
 ;; ## Input Type Definition
 
-(s/def ::input-type-definitions
-  (s/coll-of ::input-type-definition
+(s/def :alumbra/input-type-definitions
+  (s/coll-of :alumbra/input-type-definition
              :gen-max 4))
 
-(s/def ::input-type-definition
-  (s/keys :req [::input-type-fields
-                ::type-name
-                ::metadata]))
+(s/def :alumbra/input-type-definition
+  (s/keys :req [:alumbra/input-type-fields
+                :alumbra/type-name
+                :alumbra/metadata]))
 
-(s/def ::input-type-fields
-  (s/coll-of ::input-type-field
+(s/def :alumbra/input-type-fields
+  (s/coll-of :alumbra/input-type-field
              :min-count 1
              :gen-max 3))
 
-(s/def ::input-type-field
-  (s/keys :req [::field-name
-                ::type
-                ::metadata]))
+(s/def :alumbra/input-type-field
+  (s/keys :req [:alumbra/field-name
+                :alumbra/type
+                :alumbra/metadata]))
 
 ;; ## Interface Definition
 
-(s/def ::interface-definitions
-  (s/coll-of ::interface-definition
+(s/def :alumbra/interface-definitions
+  (s/coll-of :alumbra/interface-definition
              :gen-max 2))
 
-(s/def ::interface-definition
-  (s/keys :req [::type-fields
-                ::type-name
-                ::metadata]))
+(s/def :alumbra/interface-definition
+  (s/keys :req [:alumbra/type-fields
+                :alumbra/type-name
+                :alumbra/metadata]))
 
 ;; ## Scalar Definition
 
-(s/def ::scalar-definitions
-  (s/coll-of ::scalar-definition
+(s/def :alumbra/scalar-definitions
+  (s/coll-of :alumbra/scalar-definition
              :gen-max 2))
 
-(s/def ::scalar-definition
-  (s/keys :req [::type-name
-                ::metadata]))
+(s/def :alumbra/scalar-definition
+  (s/keys :req [:alumbra/type-name
+                :alumbra/metadata]))
 
 ;; ## Directive Definition
 
-(s/def ::directive-definitions
-  (s/coll-of ::directive-definition
+(s/def :alumbra/directive-definitions
+  (s/coll-of :alumbra/directive-definition
              :gen-max 1))
 
-(s/def ::directive-definition
-  (s/keys :req [::directive-locations
-                ::directive-name
-                ::metadata]
-          :opt [::arguments]))
-
-(s/def ::directive-locations
-  (s/coll-of ::directive-location
-             ;; TODO :min-count 1
-             :gen-max 2))
-
-(s/def ::directive-location
-  #{:query
-    :mutation
-    :subscription
-    :field
-    :fragment-definition
-    :fragment-spread
-    :inline-fragment
-    :schema
-    :scalar
-    :object
-    :field-definition
-    :argument-definition
-    :interface
-    :union
-    :enum
-    :enum-value
-    :input-object
-    :input-field-definition})
+(s/def :alumbra/directive-definition
+  (s/keys :req [:alumbra/directive-locations
+                :alumbra/directive-name
+                :alumbra/metadata]
+          :opt [:alumbra/arguments]))
 
 ;; ## Union Definition
 
-(s/def ::union-definitions
-  (s/coll-of ::union-definition
+(s/def :alumbra/union-definitions
+  (s/coll-of :alumbra/union-definition
              :gen-max 2))
 
-(s/def ::union-definition
-  (s/keys :req [::union-types
-                ::type-name
-                ::metadata]))
+(s/def :alumbra/union-definition
+  (s/keys :req [:alumbra/union-types
+                :alumbra/type-name
+                :alumbra/metadata]))
 
-(s/def ::union-types
-  (s/coll-of ::union-type
+(s/def :alumbra/union-types
+  (s/coll-of :alumbra/union-type
              :min-count 1
              :gen-max 3))
 
-(s/def ::union-type
-  (s/keys :req [::type-name
-                ::metadata]))
+(s/def :alumbra/union-type
+  (s/keys :req [:alumbra/type-name
+                :alumbra/metadata]))
 
 ;; ## Enum Definition
 
-(s/def ::enum-definitions
-  (s/coll-of ::enum-definition
+(s/def :alumbra/enum-definitions
+  (s/coll-of :alumbra/enum-definition
              :gen-max 2))
 
-(s/def ::enum-definition
-  (s/keys :req [::enum-fields
-                ::type-name
-                ::metadata]))
+(s/def :alumbra/enum-definition
+  (s/keys :req [:alumbra/enum-fields
+                :alumbra/type-name
+                :alumbra/metadata]))
 
-(s/def ::enum-fields
-  (s/coll-of ::enum-field
+(s/def :alumbra/enum-fields
+  (s/coll-of :alumbra/enum-field
              :min-count 1
              :gen-max 3))
 
-(s/def ::enum-field
-  (s/keys :req [::enum
-                ::metadata]
-          :opt [::integer]))
+(s/def :alumbra/enum-field
+  (s/keys :req [:alumbra/enum
+                :alumbra/metadata]
+          :opt [:alumbra/integer]))
 
 ;; ## Schema Definition
 
-(s/def ::schema-definitions
-  (s/coll-of ::schema-definition
+(s/def :alumbra/schema-definitions
+  (s/coll-of :alumbra/schema-definition
              :gen-max 1))
 
-(s/def ::schema-definition
-  (s/keys :req [::schema-fields
-                ::metadata]))
+(s/def :alumbra/schema-definition
+  (s/keys :req [:alumbra/schema-fields
+                :alumbra/metadata]))
 
-(s/def ::schema-fields
-  (s/coll-of ::schema-field
+(s/def :alumbra/schema-fields
+  (s/coll-of :alumbra/schema-field
              :min-count 1
              :gen-max 3))
 
-(s/def ::schema-field
-  (s/keys :req [::schema-type
-                ::operation-type
-                ::metadata]))
+(s/def :alumbra/schema-field
+  (s/keys :req [:alumbra/schema-type
+                :alumbra/operation-type
+                :alumbra/metadata]))
 
-(s/def ::schema-type
-  (s/keys :req [::type-name
-                ::metadata]))
-
-;; ## Value
-
-(s/def ::value-type
-  #{:integer :float :string :boolean :enum})
-
-(s/def ::integer
-  integer?)
-
-(s/def ::float
-  float?)
-
-(s/def ::string
-  string?)
-
-(s/def ::boolean
-  boolean?)
-
-(s/def ::enum
-  ::common/name)
-
-;; ### Dispatch
-
-(defmulti graphql-value-data ::value-type)
-
-(defmethod graphql-value-data :integer
-  [_]
-  (s/keys :req [::value-type
-                ::integer]))
-
-(defmethod graphql-value-data :float
-  [_]
-  (s/keys :req [::value-type
-                ::float]))
-
-(defmethod graphql-value-data :string
-  [_]
-  (s/keys :req [::value-type
-                ::string]))
-
-(defmethod graphql-value-data :boolean
-  [_]
-  (s/keys :req [::value-type
-                ::boolean]))
-
-(defmethod graphql-value-data :enum
-  [_]
-  (s/keys :req [::value-type
-                ::enum]))
-
-(s/def ::default-value
-  (s/merge
-    (s/multi-spec graphql-value-data ::value-type)
-    (s/keys :req [::metadata])))
-
-;; ## Types
-
-(s/def ::type-class
-  #{:named-type
-    :list-type})
-
-(defmulti ^:private type-class ::type-class)
-
-(defmethod type-class :named-type
-  [_]
-  (s/keys :req [::type-class
-                ::type-name
-                ::non-null?
-                ::metadata]))
-
-(defmethod type-class :list-type
-  [_]
-  (s/keys :req [::type-class
-                ::element-type
-                ::non-null?
-                ::metadata]))
-
-(s/def ::type
-  (s/multi-spec type-class ::type-class))
-
-(s/def ::element-type
-  ::type)
-
-(s/def ::argument-type
-  ::type)
+(s/def :alumbra/schema-type
+  (s/keys :req [:alumbra/type-name
+                :alumbra/metadata]))

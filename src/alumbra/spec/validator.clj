@@ -1,27 +1,15 @@
 (ns alumbra.spec.validator
   (:require [clojure.spec :as s]
-            [alumbra.spec.common :as common]))
-
-(common/import-specs
-  ::argument-name
-  ::directive-name
-  ::field-name
-  ::fragment-name
-  ::operation-name
-  ::variable-name
-  ::type-name
-  ::row
-  ::column
-  ::index)
+            [alumbra.spec common]))
 
 ;; ## Error Container
 
-(s/def ::errors
-  (s/coll-of ::error
+(s/def :alumbra/validation-errors
+  (s/coll-of :alumbra/validation-error
              :min-count 1
              :gen-max 2))
 
-(s/def ::error-class
+(s/def :alumbra/validation-error-class
   #{:operation/name-unique
     :operation/lone-anonymous
     :operation/required-variables-given
@@ -56,231 +44,231 @@
     :variable/must-be-used
     :variable/type-correct})
 
-(defmulti ^:private error-class
-  ::error-class)
+(defmulti ^:private validation-error-class
+  :alumbra/validation-error-class)
 
-(s/def ::error
+(s/def :alumbra/validation-error
   (s/merge
-    (s/multi-spec error-class ::error-class)
-    (s/keys :req [::locations])))
+    (s/multi-spec validation-error-class :alumbra/validation-error-class)
+    (s/keys :req [:alumbra/locations])))
 
 ;; ## Location
 
-(s/def ::locations
-  (s/coll-of ::location
+(s/def :alumbra/locations
+  (s/coll-of :alumbra/location
              :gen-max 1))
 
-(s/def ::location
-  ::common/metadata)
+(s/def :alumbra/location
+  :alumbra/metadata)
 
 ;; ## Error Metadata
 
 ;; ### Operations
 
-(defmethod error-class :operation/name-unique
+(defmethod validation-error-class :operation/name-unique
   [_]
-  (s/keys :req [::error-class
-                ::operation-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/operation-name]))
 
-(defmethod error-class :operation/lone-anonymous
+(defmethod validation-error-class :operation/lone-anonymous
   [_]
-  (s/keys :req [::error-class]))
+  (s/keys :req [:alumbra/validation-error-class]))
 
 ;; ### Fields
 
-(defmethod error-class :field/selection-in-scope
+(defmethod validation-error-class :field/selection-in-scope
   [_]
-  (s/keys :req [::error-class
-                ::field-name
-                ::containing-type-name
-                ::valid-field-names]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/field-name
+                :alumbra/containing-type-name
+                :alumbra/valid-field-names]))
 
-(defmethod error-class :field/selection-mergeable
+(defmethod validation-error-class :field/selection-mergeable
   [_]
   ;; TODO
-  (s/keys :req [::error-class
-                ::containing-type-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/containing-type-name]))
 
-(defmethod error-class :field/leaf-selection
+(defmethod validation-error-class :field/leaf-selection
   [_]
-  (s/keys :req [::error-class
-                ::field-name
-                ::containing-type-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/field-name
+                :alumbra/containing-type-name]))
 
-(s/def ::containing-type-name
-  ::type-name)
+(s/def :alumbra/containing-type-name
+  :alumbra/type-name)
 
-(s/def ::field-names
-  (s/coll-of ::field-name
+(s/def :alumbra/field-names
+  (s/coll-of :alumbra/field-name
              :into #{}
              :gen-max 3))
 
-(s/def ::valid-field-names
-  ::field-names)
+(s/def :alumbra/valid-field-names
+  :alumbra/field-names)
 
 ;; ### Arguments
 
-(defmethod error-class :argument/name-in-scope
+(defmethod validation-error-class :argument/name-in-scope
   [_]
-  (s/keys :req [::error-class
-                ::field-name
-                ::containing-type-name
-                ::argument-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/field-name
+                :alumbra/containing-type-name
+                :alumbra/argument-name]))
 
-(defmethod error-class :argument/name-unique
+(defmethod validation-error-class :argument/name-unique
   [_]
-  (s/keys :req [::error-class
-                ::field-name
-                ::containing-type-name
-                ::argument-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/field-name
+                :alumbra/containing-type-name
+                :alumbra/argument-name]))
 
-(defmethod error-class :argument/type-correct
+(defmethod validation-error-class :argument/type-correct
   [_]
-  (s/keys :req [::error-class
-                ::field-name
-                ::containing-type-name
-                ::argument-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/field-name
+                :alumbra/containing-type-name
+                :alumbra/argument-name]))
 
-(defmethod error-class :argument/required-given
+(defmethod validation-error-class :argument/required-given
   [_]
-  (s/keys :req [::error-class
-                ::field-name
-                ::containing-type-name
-                ::required-argument-names]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/field-name
+                :alumbra/containing-type-name
+                :alumbra/required-argument-names]))
 
-(s/def ::argument-type-name
-  ::type-name)
+(s/def :alumbra/argument-type-name
+  :alumbra/type-name)
 
-(s/def ::required-argument-names
-  (s/coll-of ::argument-name
+(s/def :alumbra/required-argument-names
+  (s/coll-of :alumbra/argument-name
              :gen-max 5
              :into #{}))
 
 ;; ### Fragments
 
-(defmethod error-class :fragment/name-unique
+(defmethod validation-error-class :fragment/name-unique
   [_]
-  (s/keys :req [::error-class
-                ::fragment-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/fragment-name]))
 
-(defmethod error-class :fragment/type-exists
+(defmethod validation-error-class :fragment/type-exists
   [_]
-  (s/keys :req [::error-class
-                ::fragment-type-name]
-          :opt [::fragment-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/fragment-type-name]
+          :opt [:alumbra/fragment-name]))
 
-(defmethod error-class :fragment/type-in-scope
+(defmethod validation-error-class :fragment/type-in-scope
   [_]
-  (s/keys :req [::error-class
-                ::fragment-type-name
-                ::containing-type-name]
-          :opt [::fragment-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/fragment-type-name
+                :alumbra/containing-type-name]
+          :opt [:alumbra/fragment-name]))
 
-(defmethod error-class :fragment/on-composite-type
+(defmethod validation-error-class :fragment/on-composite-type
   [_]
-  (s/keys :req [::error-class
-                ::fragment-type-name]
-          :opt [::fragment-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/fragment-type-name]
+          :opt [:alumbra/fragment-name]))
 
-(defmethod error-class :fragment/must-be-used
+(defmethod validation-error-class :fragment/must-be-used
   [_]
-  (s/keys :req [::error-class
-                ::fragment-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/fragment-name]))
 
-(defmethod error-class :fragment/target-exists
+(defmethod validation-error-class :fragment/target-exists
   [_]
-  (s/keys :req [::error-class
-                ::fragment-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/fragment-name]))
 
-(defmethod error-class :fragment/acyclic
+(defmethod validation-error-class :fragment/acyclic
   [_]
-  (s/keys :req [::error-class
-                ::cycle-fragment-names
-                ::cycle-fragment-edges]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/cycle-fragment-names
+                :alumbra/cycle-fragment-edges]))
 
-(s/def ::fragment-type-name
-  ::type-name)
+(s/def :alumbra/fragment-type-name
+  :alumbra/type-name)
 
-(s/def ::cycle-fragment-names
-  (s/coll-of ::fragment-name
+(s/def :alumbra/cycle-fragment-names
+  (s/coll-of :alumbra/fragment-name
              :min-count 1
              :gen-max 3
              :into #{}))
 
-(s/def ::cycle-fragment-edges
-  (s/map-of ::fragment-name ::cycle-fragment-names
+(s/def :alumbra/cycle-fragment-edges
+  (s/map-of :alumbra/fragment-name :alumbra/cycle-fragment-names
             :gen-max 3))
 
 ;; ### Input
 
-(defmethod error-class :input/field-name-unique
+(defmethod validation-error-class :input/field-name-unique
   [_]
-  (s/keys :req [::error-class
-                ::field-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/field-name]))
 
 ;; ### Directive
 
-(defmethod error-class :directive/exists
+(defmethod validation-error-class :directive/exists
   [_]
-  (s/keys :req [::error-class
-                ::directive-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/directive-name]))
 
-(defmethod error-class :directive/location-valid
+(defmethod validation-error-class :directive/location-valid
   [_]
-  (s/keys :req [::error-class
-                ::directive-name]
-          :opt [::field-name
-                ::fragment-name
-                ::fragment-type-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/directive-name]
+          :opt [:alumbra/field-name
+                :alumbra/fragment-name
+                :alumbra/fragment-type-name]))
 
-(defmethod error-class :directive/name-unique
+(defmethod validation-error-class :directive/name-unique
   [_]
-  (s/keys :req [::error-class
-                ::directive-name]
-          :opt [::field-name
-                ::fragment-name
-                ::fragment-type-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/directive-name]
+          :opt [:alumbra/field-name
+                :alumbra/fragment-name
+                :alumbra/fragment-type-name]))
 
 ;; ### Variables
 
-(defmethod error-class :variable/name-unique
+(defmethod validation-error-class :variable/name-unique
   [_]
-  (s/keys :req [::error-class
-                ::operation-name
-                ::variable-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/operation-name
+                :alumbra/variable-name]))
 
-(defmethod error-class :variable/default-value-correct
+(defmethod validation-error-class :variable/default-value-correct
   [_]
-  (s/keys :req [::error-class
-                ::operation-name
-                ::variable-name
-                ::variable-type-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/operation-name
+                :alumbra/variable-name
+                :alumbra/variable-type-name]))
 
-(defmethod error-class :variable/input-type
+(defmethod validation-error-class :variable/input-type
   [_]
-  (s/keys :req [::error-class
-                ::operation-name
-                ::variable-name
-                ::variable-type-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/operation-name
+                :alumbra/variable-name
+                :alumbra/variable-type-name]))
 
-(defmethod error-class :variable/exists
+(defmethod validation-error-class :variable/exists
   [_]
-  (s/keys :req [::error-class
-                ::variable-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/variable-name]))
 
-(defmethod error-class :variable/must-be-used
+(defmethod validation-error-class :variable/must-be-used
   [_]
-  (s/keys :req [::error-class
-                ::operation-name
-                ::variable-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/operation-name
+                :alumbra/variable-name]))
 
-(defmethod error-class :variable/type-correct
+(defmethod validation-error-class :variable/type-correct
   [_]
-  (s/keys :req [::error-class
-                ::operation-name
-                ::variable-name
-                ::variable-type-name
-                ::argument-type-name]))
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/operation-name
+                :alumbra/variable-name
+                :alumbra/variable-type-name
+                :alumbra/argument-type-name]))
 
-(s/def ::variable-type-name
-  ::type-name)
+(s/def :alumbra/variable-type-name
+  :alumbra/type-name)

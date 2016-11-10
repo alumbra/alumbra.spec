@@ -12,25 +12,25 @@ components to allow for pluggable implementations.
 
 ## Available Specs
 
-__`:alumbra.spec.document/document`__
+__`:alumbra/document`__
 
 Describes the AST of a GraphQL document.
 
-__`:alumbra.spec.schema/schema`__
+__`:alumbra/schema`__
 
 Describes the AST of a GraphQL schema.
 
-__`:alumbra.spec.canonical-document/document`__
+__`:alumbra/canonical-document`__
 
 Describes a canonical, self-contained format for a GraphQL document that
 can be interpreted without further knowledge of the GraphQL schema.
 
-__`:alumbra.spec.validator/errors`__
+__`:alumbra/validation-errors`__
 
 Describes a seq of validation errors for a given GraphQL schema and query
 document.
 
-__`:alumbra.spec.analyzer/schema`__
+__`:alumbra/analyzed-schema`__
 
 An analyzed version of a GraphQL schema, removing AST-specific information like
 metadata and providing maps where appropriate.

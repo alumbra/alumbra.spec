@@ -1,15 +1,6 @@
 (ns alumbra.spec.canonical-document
   (:require [clojure.spec :as s]
-            [alumbra.spec.common :as common]))
-
-(common/import-specs
-  ::argument-name
-  ::type-name
-  ::field-name
-  ::non-null?
-  ::operation-name
-  ::operation-type
-  ::field-alias)
+            [alumbra.spec common]))
 
 ;; ## Document
 ;;
@@ -22,69 +13,65 @@
 ;; - which scalar type leaves have.
 ;; - which fields can be null, which can't.
 
-(s/def ::document
+(s/def :alumbra/canonical-document
   (s/and
     (s/coll-of ::operation
                :min-count 1
                :gen-max 3)
     #(or (= (count %) 1)
-         (every? ::operation-name %))))
+         (every? :alumbra/operation-name %))))
 
 ;; ## Operation
 
 (s/def ::operation
-  (s/keys :req [::selection-set
-                ::operation-type]
-          :opt [::operation-name]))
+  (s/keys :req-un [::selection-set
+                   :alumbra/operation-type]
+          :opt-un [:alumbra/operation-name]))
 
 ;; ## Selection
 
 (s/def ::selection-set
-  (s/map-of ::field-alias ::field
+  (s/map-of :alumbra/field-alias ::field
             :min-count 1
             :gen-max 2))
-
-(s/def ::value-type
-  #{:integer :float :string
-    :boolean :enum :object :list})
 
 (s/def ::field-type
   #{:leaf :object :list})
 
-(defmulti canonical-field ::field-type)
+(defmulti field ::field-type)
 
-(defmethod canonical-field :leaf
+(defmethod field :leaf
   [_]
-  (s/keys :req [::field-type
-                ::value-type
-                ::non-null?
-                ::arguments]))
+  (s/keys :req-un [:alumbra/value-type
+                   :alumbra/non-null?
+                   ::field-type
+                   ::arguments]))
 
-(defmethod canonical-field :object
+(defmethod field :object
   [_]
-  (s/keys :req [::field-type
-                ::non-null?
-                ::selection-set]))
+  (s/keys :req-un [:alumbra/non-null?
+                   ::field-type
+                   ::selection-set]))
 
-(defmethod canonical-field :list
+(defmethod field :list
   [_]
-  (s/keys :req [::field-type
-                ::non-null?
-                ::field]))
+  (s/keys :req-un [:alumbra/non-null?
+                   ::field-type
+                   ::field]))
 
 (s/def ::field
   (s/merge
-    (s/multi-spec canonical-field ::field-type)
-    (s/keys :req [::field-name]
-            :opt [::field-type-condition])))
+    (s/multi-spec field ::field-type)
+    (s/keys :req-un [:alumbra/field-name]
+            :opt-un [::type-condition])))
 
-(s/def ::field-type-condition
-  ::type-name)
+(s/def ::type-condition
+  :alumbra/type-name)
 
 ;; ## Arguments
 
 (s/def ::arguments
-  (s/map-of ::argument-name ::value
+  (s/map-of :alumbra/argument-name ::value
             :gen-max 2))
 
 ;; ## Values
