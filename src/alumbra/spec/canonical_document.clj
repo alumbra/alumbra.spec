@@ -38,7 +38,7 @@
 (s/def ::field-type
   #{:leaf :object :list})
 
-(defmulti field ::field-type)
+(defmulti field :field-type)
 
 (defmethod field :leaf
   [_]
@@ -61,7 +61,7 @@
 
 (s/def ::field
   (s/merge
-    (s/multi-spec field ::field-type)
+    (s/multi-spec field :field-type)
     (s/keys :req-un [:alumbra/field-name]
             :opt-un [::type-condition])))
 
