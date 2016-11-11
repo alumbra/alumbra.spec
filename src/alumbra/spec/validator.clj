@@ -12,6 +12,7 @@
 (s/def :alumbra/validation-error-class
   #{:operation/name-unique
     :operation/lone-anonymous
+    :operation/allowed
     :operation/required-variables-given
 
     :field/selection-in-scope
@@ -68,6 +69,13 @@
 (defmethod validation-error-class :operation/name-unique
   [_]
   (s/keys :req [:alumbra/validation-error-class
+                :alumbra/operation-type
+                :alumbra/operation-name]))
+
+(defmethod validation-error-class :operation/allowed
+  [_]
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/operation-type
                 :alumbra/operation-name]))
 
 (defmethod validation-error-class :operation/lone-anonymous
