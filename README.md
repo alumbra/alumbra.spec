@@ -12,7 +12,9 @@ components to allow for pluggable implementations.
 
 ## Usage
 
+```clojure
 (require 'alumbra.spec)
+```
 
 ## Available Specs
 
