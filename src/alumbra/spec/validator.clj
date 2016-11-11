@@ -69,7 +69,6 @@
 (defmethod validation-error-class :operation/name-unique
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/operation-type
                 :alumbra/operation-name]))
 
 (defmethod validation-error-class :operation/allowed
