@@ -15,7 +15,7 @@
     :operation/allowed
     :operation/required-variables-given
 
-    :field/selection-in-scope
+    :field/name-in-scope
     :field/selection-mergeable
     :field/leaf-selection
 
@@ -83,7 +83,7 @@
 
 ;; ### Fields
 
-(defmethod validation-error-class :field/selection-in-scope
+(defmethod validation-error-class :field/name-in-scope
   [_]
   (s/keys :req [:alumbra/validation-error-class
                 :alumbra/field-name
