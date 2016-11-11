@@ -1,4 +1,4 @@
-(ns alumbra.spec.analyzer
+(ns alumbra.spec.analyzed-schema
   (:require [clojure.spec :as s]
             [clojure.spec.gen :as gen]
             [alumbra.spec common]))

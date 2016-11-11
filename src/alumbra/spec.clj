@@ -1,6 +1,6 @@
 (ns alumbra.spec
   (:require [alumbra.spec
-             analyzer
+             analyzed-schema
              canonical-document
              document
              schema
