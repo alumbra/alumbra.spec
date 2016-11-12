@@ -31,15 +31,19 @@ __`:alumbra/canonical-document`__
 Describes a canonical, self-contained format for a GraphQL document that
 can be interpreted without further knowledge of the GraphQL schema.
 
+__`:alumbra/analyzed-schema`__
+
+An analyzed version of a GraphQL schema, removing AST-specific information like
+metadata and providing inline maps where appropriate.
+
+__`:alumbra/parser-errors`__
+
+Describes a seq of parser errors for a given GraphQL schema or query document.
+
 __`:alumbra/validation-errors`__
 
 Describes a seq of validation errors for a given GraphQL schema and query
 document.
-
-__`:alumbra/analyzed-schema`__
-
-An analyzed version of a GraphQL schema, removing AST-specific information like
-metadata and providing maps where appropriate.
 
 ## License
 

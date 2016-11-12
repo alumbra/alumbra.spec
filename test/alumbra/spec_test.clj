@@ -12,8 +12,11 @@
 (deftest t-schema-spec
   (is (= 100 (count (s/exercise :alumbra/schema 100)))))
 
-(deftest t-validator-spec
+(deftest t-validation-errors-spec
   (is (= 100 (count (s/exercise :alumbra/validation-errors 100)))))
+
+(deftest t-parser-errors-spec
+  (is (= 100 (count (s/exercise :alumbra/parser-errors 100)))))
 
 (deftest t-canonical-document-spec
   (is (= 100 (count (s/exercise :alumbra/canonical-document 100)))))

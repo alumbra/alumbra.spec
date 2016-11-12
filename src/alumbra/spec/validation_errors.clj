@@ -53,14 +53,6 @@
     (s/multi-spec validation-error-class :alumbra/validation-error-class)
     (s/keys :req [:alumbra/locations])))
 
-;; ## Location
-
-(s/def :alumbra/locations
-  (s/coll-of :alumbra/location
-             :gen-max 1))
-
-;; ## Error Metadata
-
 ;; ### Operations
 
 (defmethod validation-error-class :operation/name-unique

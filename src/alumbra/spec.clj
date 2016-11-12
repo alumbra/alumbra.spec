@@ -3,5 +3,6 @@
              analyzed-schema
              canonical-document
              document
+             parser-errors
              schema
              validation-errors]))

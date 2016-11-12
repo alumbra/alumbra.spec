@@ -53,6 +53,10 @@
 
 ;; ## Location
 
+(s/def :alumbra/locations
+  (s/coll-of :alumbra/location
+             :gen-max 1))
+
 (s/def :alumbra/location
   (s/keys :req-un [:alumbra.location/row
                    :alumbra.location/column]
