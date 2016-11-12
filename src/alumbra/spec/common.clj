@@ -39,8 +39,8 @@
 
 (s/def :alumbra/metadata
   (s/keys :req-un [:alumbra/row
-                   :alumbra/column
-                   :alumbra/index]))
+                   :alumbra/column]
+          :opt-un [:alumbra/index]))
 
 (s/def :alumbra/row
   (s/and integer? #(>= % 0)))
@@ -50,6 +50,19 @@
 
 (s/def :alumbra/index
   (s/and integer? #(>= % 0)))
+
+;; ## Location
+
+(s/def :alumbra/location
+  (s/keys :req-un [:alumbra.location/row
+                   :alumbra.location/column]
+          :opt-un [:alumbra/index]))
+
+(s/def :alumbra.location/row
+  (s/and integer? pos?))
+
+(s/def :alumbra.location/column
+  (s/and integer? pos?))
 
 ;; ## Flags
 

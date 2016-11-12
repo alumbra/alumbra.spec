@@ -59,9 +59,6 @@
   (s/coll-of :alumbra/location
              :gen-max 1))
 
-(s/def :alumbra/location
-  :alumbra/metadata)
-
 ;; ## Error Metadata
 
 ;; ### Operations
