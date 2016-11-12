@@ -58,15 +58,7 @@
              :gen-max 1))
 
 (s/def :alumbra/location
-  (s/keys :req-un [:alumbra.location/row
-                   :alumbra.location/column]
-          :opt-un [:alumbra/index]))
-
-(s/def :alumbra.location/row
-  (s/and integer? pos?))
-
-(s/def :alumbra.location/column
-  (s/and integer? pos?))
+  :alumbra/metadata)
 
 ;; ## Flags
 
