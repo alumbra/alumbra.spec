@@ -107,8 +107,16 @@
 ;; ## Values
 
 (s/def :alumbra/value-type
-  #{:variable :integer :float :string
-    :boolean :enum :object :list})
+  #{:variable
+    :integer
+    :float
+    :string
+    :id
+    :boolean
+    :enum
+    :object
+    :list
+    :null})
 
 ;; ### Literals
 
