@@ -17,6 +17,7 @@
                    ::directives
                    ::scalars
                    ::unions
+                   ::enums
                    ::schema-root
                    ::type->kind]))
 
@@ -151,6 +152,18 @@
 (s/def ::directive
   (s/keys :req-un [:alumbra/directive-locations
                    ::arguments]))
+
+;; ### Enums
+
+(s/def ::enums
+  (s/map-of :alumbra/type-name ::enum
+            :gen-max 1))
+
+(s/def ::enum
+  (s/coll-of :alumbra/enum
+             :min-count 1
+             :into #{}
+             :gen-max 2))
 
 ;; ### Schema Root
 
