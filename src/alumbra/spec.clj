@@ -4,4 +4,4 @@
              canonical-document
              document
              schema
-             validator]))
+             validation-errors]))

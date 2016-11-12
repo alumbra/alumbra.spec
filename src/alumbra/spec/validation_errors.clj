@@ -1,4 +1,4 @@
-(ns alumbra.spec.validator
+(ns alumbra.spec.validation-errors
   (:require [clojure.spec :as s]
             [alumbra.spec common]))
 
