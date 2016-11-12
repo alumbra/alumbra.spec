@@ -1,5 +1,6 @@
 (ns alumbra.spec.canonical-operation
   (:require [clojure.spec :as s]
+            [clojure.spec.gen :as gen]
             [alumbra.spec common]))
 
 ;; ## Canonical Operation
@@ -26,19 +27,28 @@
 ;; ## Selection
 
 (s/def ::selection-set
-  (s/coll-of ::field
+  (s/coll-of ::selection
              :min-count 1
              :gen-max 2))
 
+(s/def ::selection
+  (s/with-gen
+    (s/or :field ::field
+          :block ::block)
+    #(gen/frequency
+       [[9 (s/gen ::field)]
+        [1 (gen/bind (gen/return nil) (fn [_] (s/gen ::block)))]])))
+
+;; ### Field Selection
+
 (s/def ::field-type
-  #{:leaf :object :list :conditional-block})
+  #{:leaf :object :list})
 
 (defmulti field :field-type)
 
 (defmethod field :leaf
   [_]
-  (s/keys :req-un [:alumbra/field-name
-                   :alumbra/value-type
+  (s/keys :req-un [:alumbra/type-name
                    :alumbra/non-null?
                    ::field-type]
           :opt-un [::arguments
@@ -46,29 +56,32 @@
 
 (defmethod field :object
   [_]
-  (s/keys :req-un [:alumbra/field-name
-                   :alumbra/non-null?
+  (s/keys :req-un [:alumbra/non-null?
                    ::field-type
                    ::selection-set]
           :opt-un [::directives]))
 
 (defmethod field :list
   [_]
-  (s/keys :req-un [:alumbra/field-name
-                   :alumbra/non-null?
+  (s/keys :req-un [:alumbra/non-null?
                    ::field-type
-                   ::field]
+                   ::field-spec]
           :opt-un [::directives]))
 
-(defmethod field :conditional-block
-  [_]
-  (s/keys :req-un [::field-type
-                   ::type-condition
-                   ::field]
-          :opt-un [::directives]))
+(s/def ::field-spec
+  (s/multi-spec field :field-type))
 
 (s/def ::field
-  (s/multi-spec field :field-type))
+  (s/merge
+    ::field-spec
+    (s/keys :req-un [:alumbra/field-name])))
+
+;; ### Conditional Block
+
+(s/def ::block
+  (s/keys :req-un [::type-condition
+                   ::selection-set]
+          :opt-un [::directives]))
 
 (s/def ::type-condition
   :alumbra/type-name)
