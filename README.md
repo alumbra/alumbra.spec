@@ -26,9 +26,9 @@ __`:alumbra/schema`__
 
 Describes the AST of a GraphQL schema.
 
-__`:alumbra/canonical-document`__
+__`:alumbra/canonical-operation`__
 
-Describes a canonical, self-contained format for a GraphQL document that
+Describes a canonical, self-contained format for a GraphQL operation that
 can be interpreted without further knowledge of the GraphQL schema.
 
 __`:alumbra/analyzed-schema`__

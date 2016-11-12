@@ -1,8 +1,8 @@
-(ns alumbra.spec.canonical-document
+(ns alumbra.spec.canonical-operation
   (:require [clojure.spec :as s]
             [alumbra.spec common]))
 
-;; ## Canonical Document
+;; ## Canonical Operation
 ;;
 ;; The idea here is that, for execution, the concepts of fragments or variables
 ;; are no longer relevant. We just need a resolved description of the query,
@@ -15,17 +15,9 @@
 ;; - which fields have type conditions (from fragment and inline spreads).
 ;; - which (groups of) fields have directives assigned to them.
 
-(s/def :alumbra/canonical-document
-  (s/and
-    (s/coll-of ::operation
-               :min-count 1
-               :gen-max 3)
-    #(or (= (count %) 1)
-         (every? :alumbra/operation-name %))))
-
 ;; ## Operation
 
-(s/def ::operation
+(s/def :alumbra/canonical-operation
   (s/keys :req-un [::selection-set
                    :alumbra/operation-type]
           :opt-un [:alumbra/operation-name

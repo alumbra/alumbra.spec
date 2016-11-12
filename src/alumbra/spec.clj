@@ -1,7 +1,7 @@
 (ns alumbra.spec
   (:require [alumbra.spec
              analyzed-schema
-             canonical-document
+             canonical-operation
              document
              parser-errors
              schema

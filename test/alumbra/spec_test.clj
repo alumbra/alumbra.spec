@@ -18,5 +18,5 @@
 (deftest t-parser-errors-spec
   (is (= 100 (count (s/exercise :alumbra/parser-errors 100)))))
 
-(deftest t-canonical-document-spec
-  (is (= 100 (count (s/exercise :alumbra/canonical-document 100)))))
+(deftest t-canonical-operation-spec
+  (is (= 100 (count (s/exercise :alumbra/canonical-operation 100)))))
