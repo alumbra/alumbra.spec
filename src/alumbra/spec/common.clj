@@ -127,6 +127,9 @@
 (s/def :alumbra/enum
   :alumbra/name)
 
+(s/def :alumbra/id
+  :alumbra/string)
+
 ;; ## Composite Values
 
 (s/def :alumbra/list
@@ -186,6 +189,15 @@
   (s/keys :req [:alumbra/value-type
                 :alumbra/list]))
 
+(defmethod graphql-value-data :id
+  [_]
+  (s/keys :req [:alumbra/value-type
+                :alumbra/id]))
+
+(defmethod graphql-value-data :null
+  [_]
+  (s/keys :req [:alumbra/value-type]))
+
 (s/def :alumbra/value
   (s/merge
     (s/multi-spec graphql-value-data :alumbra/value-type)
@@ -196,7 +208,7 @@
 
 (s/def :alumbra/scalar-value
   (s/and :alumbra/value
-         (comp #{:integer :string :boolean :enum :float}
+         (comp #{:integer :string :boolean :enum :float :id :null}
                :alumbra/value-type)))
 
 (s/def :alumbra/argument-value
