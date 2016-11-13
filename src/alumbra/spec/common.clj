@@ -246,3 +246,16 @@
     :enum-value
     :input-object
     :input-field-definition})
+
+;; ## Generic Errors
+
+(s/def :alumbra/errors
+  (s/coll-of :alumbra/error
+             :min-count 1))
+
+(s/def :alumbra/error
+  (s/keys :req-un [:alumbra/error-message]
+          :opt-un [:alumbra/locations]))
+
+(s/def :alumbra/error-message
+  string?)

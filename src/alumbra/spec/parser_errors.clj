@@ -9,7 +9,4 @@
 
 (s/def :alumbra/parser-error
   (s/keys :req [:alumbra/location
-                :alumbra/parser-error-message]))
-
-(s/def :alumbra/parser-error-message
-  string?)
+                :alumbra/error-message]))
