@@ -74,7 +74,8 @@
 (s/def ::field
   (s/merge
     ::field-spec
-    (s/keys :req-un [:alumbra/field-name])))
+    (s/keys :req-un [:alumbra/field-name
+                     :alumbra/field-alias])))
 
 ;; ### Conditional Block
 
