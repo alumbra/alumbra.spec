@@ -27,7 +27,7 @@
              :gen-max 2))
 
 (s/def :alumbra/type-definition
-  (s/keys :req [:alumbra/type-fields
+  (s/keys :req [:alumbra/field-definitions
                 :alumbra/type-name
                 :alumbra/metadata]
           :opt [:alumbra/interface-types
@@ -42,12 +42,12 @@
   (s/keys :req [:alumbra/type-name
                 :alumbra/metadata]))
 
-(s/def :alumbra/type-fields
-  (s/coll-of :alumbra/type-field
+(s/def :alumbra/field-definitions
+  (s/coll-of :alumbra/field-definition
              :min-count 1
              :gen-max 3))
 
-(s/def :alumbra/type-field
+(s/def :alumbra/field-definition
   (s/keys :req [:alumbra/field-name
                 :alumbra/type
                 :alumbra/metadata]
@@ -73,17 +73,17 @@
              :gen-max 4))
 
 (s/def :alumbra/input-type-definition
-  (s/keys :req [:alumbra/input-type-fields
+  (s/keys :req [:alumbra/input-field-definitions
                 :alumbra/type-name
                 :alumbra/metadata]
           :opt [:alumbra/directives]))
 
-(s/def :alumbra/input-type-fields
-  (s/coll-of :alumbra/input-type-field
+(s/def :alumbra/input-field-definitions
+  (s/coll-of :alumbra/input-field-definition
              :min-count 1
              :gen-max 3))
 
-(s/def :alumbra/input-type-field
+(s/def :alumbra/input-field-definition
   (s/keys :req [:alumbra/field-name
                 :alumbra/type
                 :alumbra/metadata]))
@@ -95,7 +95,7 @@
              :gen-max 2))
 
 (s/def :alumbra/interface-definition
-  (s/keys :req [:alumbra/type-fields
+  (s/keys :req [:alumbra/field-definitions
                 :alumbra/type-name
                 :alumbra/metadata]
           :opt [:alumbra/directives]))
