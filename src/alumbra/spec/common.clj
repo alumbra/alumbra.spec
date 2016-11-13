@@ -220,7 +220,19 @@
 (s/def :alumbra/default-value
   :alumbra/constant)
 
-;; ## Directive Locations
+;; ## Arguments
+
+(s/def :alumbra/arguments
+  (s/coll-of :alumbra/argument
+             :min-count 1
+             :gen-max 1))
+
+(s/def :alumbra/argument
+  (s/keys :req [:alumbra/argument-name
+                :alumbra/metadata
+                :alumbra/argument-value]))
+
+;; ## Directives
 
 (s/def :alumbra/directive-locations
   (s/coll-of :alumbra/directive-location
@@ -246,6 +258,16 @@
     :enum-value
     :input-object
     :input-field-definition})
+
+(s/def :alumbra/directives
+  (s/coll-of :alumbra/directive
+             :min-count 1
+             :gen-max 1))
+
+(s/def :alumbra/directive
+  (s/keys :req [:alumbra/directive-name
+                :alumbra/metadata]
+          :opt [:alumbra/arguments]))
 
 ;; ## Generic Errors
 

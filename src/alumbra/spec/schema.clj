@@ -30,7 +30,8 @@
   (s/keys :req [:alumbra/type-fields
                 :alumbra/type-name
                 :alumbra/metadata]
-          :opt [:alumbra/interface-types]))
+          :opt [:alumbra/interface-types
+                :alumbra/directives]))
 
 (s/def :alumbra/interface-types
   (s/coll-of :alumbra/interface-type
@@ -50,18 +51,20 @@
   (s/keys :req [:alumbra/field-name
                 :alumbra/type
                 :alumbra/metadata]
-          :opt [:alumbra/type-field-arguments]))
+          :opt [:alumbra/argument-definitions
+                :alumbra/directives]))
 
-(s/def :alumbra/type-field-arguments
-  (s/coll-of :alumbra/type-field-argument
+(s/def :alumbra/argument-definitions
+  (s/coll-of :alumbra/argument-definition
              :min-count 1
              :gen-max 3))
 
-(s/def :alumbra/type-field-argument
+(s/def :alumbra/argument-definition
   (s/keys :req [:alumbra/argument-name
                 :alumbra/argument-type
                 :alumbra/metadata]
-          :opt [:alumbra/argument-default-value]))
+          :opt [:alumbra/argument-default-value
+                :alumbra/directives]))
 
 ;; ## Input Type Definition
 
@@ -72,7 +75,8 @@
 (s/def :alumbra/input-type-definition
   (s/keys :req [:alumbra/input-type-fields
                 :alumbra/type-name
-                :alumbra/metadata]))
+                :alumbra/metadata]
+          :opt [:alumbra/directives]))
 
 (s/def :alumbra/input-type-fields
   (s/coll-of :alumbra/input-type-field
@@ -93,7 +97,8 @@
 (s/def :alumbra/interface-definition
   (s/keys :req [:alumbra/type-fields
                 :alumbra/type-name
-                :alumbra/metadata]))
+                :alumbra/metadata]
+          :opt [:alumbra/directives]))
 
 ;; ## Scalar Definition
 
@@ -103,7 +108,8 @@
 
 (s/def :alumbra/scalar-definition
   (s/keys :req [:alumbra/type-name
-                :alumbra/metadata]))
+                :alumbra/metadata]
+          :opt [:alumbra/directives]))
 
 ;; ## Directive Definition
 
@@ -115,7 +121,7 @@
   (s/keys :req [:alumbra/directive-locations
                 :alumbra/directive-name
                 :alumbra/metadata]
-          :opt [:alumbra/arguments]))
+          :opt [:alumbra/argument-definitions]))
 
 ;; ## Union Definition
 
@@ -126,7 +132,8 @@
 (s/def :alumbra/union-definition
   (s/keys :req [:alumbra/union-types
                 :alumbra/type-name
-                :alumbra/metadata]))
+                :alumbra/metadata]
+          :opt [:alumbra/directives]))
 
 (s/def :alumbra/union-types
   (s/coll-of :alumbra/union-type
@@ -146,7 +153,8 @@
 (s/def :alumbra/enum-definition
   (s/keys :req [:alumbra/enum-fields
                 :alumbra/type-name
-                :alumbra/metadata]))
+                :alumbra/metadata]
+          :opt [:alumbra/directives]))
 
 (s/def :alumbra/enum-fields
   (s/coll-of :alumbra/enum-field
@@ -156,7 +164,8 @@
 (s/def :alumbra/enum-field
   (s/keys :req [:alumbra/enum
                 :alumbra/metadata]
-          :opt [:alumbra/integer]))
+          :opt [:alumbra/integer
+                :alumbra/directives]))
 
 ;; ## Schema Definition
 
@@ -166,7 +175,8 @@
 
 (s/def :alumbra/schema-definition
   (s/keys :req [:alumbra/schema-fields
-                :alumbra/metadata]))
+                :alumbra/metadata]
+          :opt [:alumbra/directives]))
 
 (s/def :alumbra/schema-fields
   (s/coll-of :alumbra/schema-field
