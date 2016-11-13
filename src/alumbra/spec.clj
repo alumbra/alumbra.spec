@@ -21,6 +21,13 @@
 (s/def ::validation-errors
   (s/keys :req [:alumbra/validation-errors]))
 
+(s/def ::executor-result
+  (s/keys :req-un [::data
+                   :alumbra/errors]))
+
+(s/def ::data
+  map?)
+
 ;; ## Components
 
 (s/def ::document-parser
@@ -56,5 +63,6 @@
 
 (s/def ::executor
   (s/fspec
-    :args (s/cat :operation :alumbra/canonical-operation)
-    :ret  map?))
+    :args (s/cat :context   any?
+                 :operation :alumbra/canonical-operation)
+    :ret  ::executor-result))
