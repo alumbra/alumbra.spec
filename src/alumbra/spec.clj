@@ -49,8 +49,9 @@
 
 (s/def ::validator
   (s/fspec
-    :args (s/cat :document  :alumbra/document
-                 :variables (s/? map?))
+    :args (s/cat :document       :alumbra/document
+                 :operation-name (s/? string?)
+                 :variables      (s/? map?))
     :ret  (s/alt :success nil?
                  :failure ::validation-errors)))
 
