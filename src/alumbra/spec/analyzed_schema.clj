@@ -192,13 +192,27 @@
 ;; ### Inline Directives
 
 (s/def ::inline-directives
-  (s/map-of :alumbra/directive-name ::inline-directive
+  (s/map-of :alumbra/directive-name ::inline-directive-arguments
             :gen-max 1))
-
-(s/def ::inline-directive
-  (s/keys :req-un [:alumbra/directive-name
-                   ::inline-directive-arguments]))
 
 (s/def ::inline-directive-arguments
-  (s/map-of :alumbra/argument-name :alumbra/constant
+  (s/map-of :alumbra/argument-name  ::value
             :gen-max 1))
+
+(s/def ::value
+  (s/or :string   string?
+        :enum     keyword?
+        :integer  integer?
+        :float    float?
+        :boolean  boolean?
+        :object   ::object
+        :list     ::list
+        :null     nil?))
+
+(s/def ::object
+  (s/map-of string? ::value
+            :gen-max 2))
+
+(s/def ::list
+  (s/coll-of ::value
+             :gen-max 2))
