@@ -101,12 +101,12 @@
 (s/def ::value
   (s/or :string   string?
         :enum     keyword?
-        :variable symbol?
         :integer  integer?
         :float    float?
         :boolean  boolean?
         :object   ::object
-        :list     ::list))
+        :list     ::list
+        :null     nil?))
 
 (s/def ::object
   (s/map-of string? ::value
