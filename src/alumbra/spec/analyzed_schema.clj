@@ -182,6 +182,10 @@
 ;; ### Schema Root
 
 (s/def ::schema-root
+  (s/keys :req-un [::schema-root-types
+                   ::inline-directives]))
+
+(s/def ::schema-root-types
   (s/map-of :alumbra/operation-type :alumbra/type-name
             :gen-max 1))
 
