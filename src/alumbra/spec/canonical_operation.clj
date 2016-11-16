@@ -20,9 +20,9 @@
 
 (s/def :alumbra/canonical-operation
   (s/keys :req-un [::selection-set
+                   ::directives
                    :alumbra/operation-type]
-          :opt-un [:alumbra/operation-name
-                   ::directives]))
+          :opt-un [:alumbra/operation-name]))
 
 ;; ## Selection
 
@@ -50,23 +50,23 @@
   [_]
   (s/keys :req-un [:alumbra/type-name
                    :alumbra/non-null?
-                   ::field-type]
-          :opt-un [::arguments
-                   ::directives]))
+                   ::directives
+                   ::arguments
+                   ::field-type]))
 
 (defmethod field :object
   [_]
   (s/keys :req-un [:alumbra/non-null?
                    ::field-type
-                   ::selection-set]
-          :opt-un [::directives]))
+                   ::directives
+                   ::selection-set]))
 
 (defmethod field :list
   [_]
   (s/keys :req-un [:alumbra/non-null?
+                   ::directives
                    ::field-type
-                   ::field-spec]
-          :opt-un [::directives]))
+                   ::field-spec]))
 
 (s/def ::field-spec
   (s/multi-spec field :field-type))
@@ -81,8 +81,8 @@
 
 (s/def ::block
   (s/keys :req-un [::type-condition
-                   ::selection-set]
-          :opt-un [::directives]))
+                   ::directives
+                   ::selection-set]))
 
 (s/def ::type-condition
   (s/coll-of :alumbra/type-name
@@ -120,9 +120,8 @@
 
 (s/def ::directives
   (s/coll-of ::directive
-             :min-count 1
              :gen-max 1))
 
 (s/def ::directive
-  (s/keys :req-un [:alumbra/directive-name]
-          :opt-un [::arguments]))
+  (s/keys :req-un [:alumbra/directive-name
+                   ::arguments]))
