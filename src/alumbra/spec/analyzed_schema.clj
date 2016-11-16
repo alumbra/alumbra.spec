@@ -47,11 +47,13 @@
 
 (s/def ::input-type
   (s/keys :req-un [:alumbra/type-name
+                   ::inline-directives
                    ::implements
                    ::fields]))
 
 (s/def ::type
   (s/keys :req-un [:alumbra/type-name
+                   ::inline-directives
                    ::implements
                    ::valid-fragment-spreads
                    ::fields]))
@@ -67,6 +69,7 @@
 (s/def ::field
   (s/merge
     (s/keys :req-un [:alumbra/field-name
+                     ::inline-directives
                      ::containing-type-name
                      ::arguments])
     ::typed))
@@ -77,7 +80,8 @@
 
 (s/def ::argument
   (s/merge
-    (s/keys :req-un [:alumbra/argument-name])
+    (s/keys :req-un [:alumbra/argument-name
+                     ::inline-directives])
     ::typed))
 
 (s/def ::typed
@@ -112,6 +116,7 @@
 
 (s/def ::interface
   (s/keys :req-un [:alumbra/type-name
+                   ::inline-directives
                    ::implemented-by
                    ::valid-fragment-spreads
                    ::fields]))
@@ -128,6 +133,7 @@
 
 (s/def ::union
   (s/keys :req-un [:alumbra/type-name
+                   ::inline-directives
                    ::fields
                    ::valid-fragment-spreads
                    ::union-types]))
@@ -140,8 +146,12 @@
 ;; ### Scalars
 
 (s/def ::scalars
-  (s/coll-of :alumbra/type-name
-             :gen-max 1))
+  (s/map-of :alumbra/type-name ::scalar
+            :gen-max 1))
+
+(s/def ::scalar
+  (s/keys :req-un [:alumbra/type-name
+                   ::inline-directives]))
 
 ;; ### Directives
 
@@ -160,6 +170,10 @@
             :gen-max 1))
 
 (s/def ::enum
+  (s/keys :req-un [::enum-values
+                   ::inline-directives]))
+
+(s/def ::enum-values
   (s/coll-of :alumbra/enum
              :min-count 1
              :into #{}
@@ -169,4 +183,18 @@
 
 (s/def ::schema-root
   (s/map-of :alumbra/operation-type :alumbra/type-name
+            :gen-max 1))
+
+;; ### Inline Directives
+
+(s/def ::inline-directives
+  (s/map-of :alumbra/directive-name ::inline-directive
+            :gen-max 1))
+
+(s/def ::inline-directive
+  (s/keys :req-un [:alumbra/directive-name
+                   ::inline-directive-arguments]))
+
+(s/def ::inline-directive-arguments
+  (s/map-of :alumbra/argument-name :alumbra/constant
             :gen-max 1))
