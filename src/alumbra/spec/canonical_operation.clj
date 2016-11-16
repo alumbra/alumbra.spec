@@ -85,7 +85,10 @@
           :opt-un [::directives]))
 
 (s/def ::type-condition
-  :alumbra/type-name)
+  (s/coll-of :alumbra/type-name
+             :into #{}
+             :gen-max 1
+             :min-count 1))
 
 ;; ## Arguments
 
