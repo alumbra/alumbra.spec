@@ -50,7 +50,6 @@
   [_]
   (s/keys :req-un [:alumbra/type-name
                    :alumbra/non-null?
-                   ::directives
                    ::arguments
                    ::field-type]))
 
@@ -58,13 +57,11 @@
   [_]
   (s/keys :req-un [:alumbra/non-null?
                    ::field-type
-                   ::directives
                    ::selection-set]))
 
 (defmethod field :list
   [_]
   (s/keys :req-un [:alumbra/non-null?
-                   ::directives
                    ::field-type
                    ::field-spec]))
 
@@ -75,6 +72,7 @@
   (s/merge
     ::field-spec
     (s/keys :req-un [:alumbra/field-name
+                     ::directives
                      :alumbra/field-alias])))
 
 ;; ### Conditional Block
