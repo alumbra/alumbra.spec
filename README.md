@@ -45,12 +45,6 @@ __`:alumbra/validation-errors`__
 Describes a seq of validation errors for a given GraphQL schema and query
 document.
 
-## Issues
-
-Issue tracking for alumbra is centralized at [alumbra/alumbra][issues].
-
-[issues]: https://github.com/alumbra/alumbra/issues
-
 ## License
 
 ```
