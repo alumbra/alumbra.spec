@@ -75,12 +75,12 @@
                      ::directives
                      :alumbra/field-alias])))
 
-;; ### Conditional Block
+;; ### Block
 
 (s/def ::block
-  (s/keys :req-un [::type-condition
-                   ::directives
-                   ::selection-set]))
+  (s/keys :req-un [::directives
+                   ::selection-set]
+          :opt-un [::type-condition]))
 
 (s/def ::type-condition
   (s/coll-of :alumbra/type-name
