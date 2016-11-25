@@ -44,34 +44,34 @@
 (s/def ::field-type
   #{:leaf :object :list})
 
-(defmulti field :field-type)
+(defmulti field-spec :field-type)
 
-(defmethod field :leaf
+(defmethod field-spec :leaf
   [_]
   (s/keys :req-un [:alumbra/type-name
                    :alumbra/non-null?
-                   ::arguments
                    ::field-type]))
 
-(defmethod field :object
+(defmethod field-spec :object
   [_]
   (s/keys :req-un [:alumbra/non-null?
                    ::field-type
                    ::selection-set]))
 
-(defmethod field :list
+(defmethod field-spec :list
   [_]
   (s/keys :req-un [:alumbra/non-null?
                    ::field-type
                    ::field-spec]))
 
 (s/def ::field-spec
-  (s/multi-spec field :field-type))
+  (s/multi-spec field-spec :field-type))
 
 (s/def ::field
   (s/merge
     ::field-spec
     (s/keys :req-un [:alumbra/field-name
+                     ::arguments
                      ::directives
                      :alumbra/field-alias])))
 
