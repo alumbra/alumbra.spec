@@ -230,41 +230,44 @@
 (defmethod validation-error-class :variable/name-unique
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/operation-name
-                :alumbra/variable-name]))
+                :alumbra/variable-name]
+          :opt [:alumbra/operation-name]))
 
 (defmethod validation-error-class :variable/default-value-correct
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/operation-name
                 :alumbra/variable-name
-                :alumbra/variable-type-name]))
+                :alumbra/variable-type-name]
+          :opt [:alumbra/operation-name]))
 
 (defmethod validation-error-class :variable/input-type
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/operation-name
                 :alumbra/variable-name
-                :alumbra/variable-type-name]))
+                :alumbra/variable-type-name]
+          :opt [:alumbra/operation-name]))
 
 (defmethod validation-error-class :variable/exists
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/variable-name]))
+                :alumbra/variable-name]
+          :opt [:alumbra/operation-name
+                :alumbra/fragment-name]))
 
 (defmethod validation-error-class :variable/must-be-used
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/operation-name
-                :alumbra/variable-name]))
+                :alumbra/variable-name]
+          :opt [:alumbra/operation-name]))
 
 (defmethod validation-error-class :variable/type-correct
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/operation-name
                 :alumbra/variable-name
                 :alumbra/variable-type-name
-                :alumbra/argument-type-name]))
+                :alumbra/argument-type-name]
+          :opt [:alumbra/operation-name
+                :alumbra/fragment-name]))
 
 (s/def :alumbra/variable-type-name
   :alumbra/type-name)
