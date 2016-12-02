@@ -33,6 +33,8 @@
     :fragment/acyclic
 
     :input/field-name-unique
+    :input/field-name-in-scope
+    :input/required-fields-given
 
     :directive/exists
     :directive/location-valid
@@ -201,6 +203,24 @@
   [_]
   (s/keys :req [:alumbra/validation-error-class
                 :alumbra/field-name]))
+
+(defmethod validation-error-class :input/field-name-in-scope
+  [_]
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/field-name
+                :alumbra/containing-type-name
+                :alumbra/valid-field-names]))
+
+(defmethod validation-error-class :input/required-fields-given
+  [_]
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/containing-type-name
+                :alumbra/required-field-names]))
+
+(s/def :alumbra/required-field-names
+  (s/coll-of :alumbra/field-name
+             :gen-max 5
+             :into #{}))
 
 ;; ### Directive
 
