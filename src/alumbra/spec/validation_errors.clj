@@ -39,7 +39,6 @@
     :directive/location-valid
     :directive/name-unique
 
-    :value/type-nullable
     :value/type-correct
 
     :variable/name-unique
@@ -259,14 +258,14 @@
   [_]
   (s/keys :req [:alumbra/validation-error-class
                 :alumbra/variable-name
-                :alumbra/variable-type-name]
+                :alumbra/type-description]
           :opt [:alumbra/operation-name]))
 
 (defmethod validation-error-class :variable/input-type
   [_]
   (s/keys :req [:alumbra/validation-error-class
                 :alumbra/variable-name
-                :alumbra/variable-type-name]
+                :alumbra/type-description]
           :opt [:alumbra/operation-name]))
 
 (defmethod validation-error-class :variable/exists
@@ -282,16 +281,7 @@
                 :alumbra/variable-name]
           :opt [:alumbra/operation-name]))
 
-(s/def :alumbra/variable-type-name
-  :alumbra/type-name)
-
 ;; ### Types
-
-(defmethod validation-error-class :value/type-nullable
-  [_]
-  (s/keys :req [:alumbra/validation-error-class
-                :alumbra/value
-                :alumbra/type-description]))
 
 (defmethod validation-error-class :value/type-correct
   [_]
