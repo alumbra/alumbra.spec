@@ -1,6 +1,6 @@
 (ns alumbra.spec.validation-errors
   (:require [clojure.spec :as s]
-            [alumbra.spec common]))
+            [alumbra.spec common type-description]))
 
 ;; ## Error Container
 
