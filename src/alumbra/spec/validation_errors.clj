@@ -44,7 +44,8 @@
     :variable/name-unique
     :variable/default-value-correct
     :variable/input-type
-    :variable/exists
+    :variable/name-in-operation-scope
+    :variable/name-in-fragment-scope
     :variable/must-be-used})
 
 (defmulti ^:private validation-error-class
@@ -268,11 +269,16 @@
                 :alumbra/type-description]
           :opt [:alumbra/operation-name]))
 
-(defmethod validation-error-class :variable/exists
+(defmethod validation-error-class :variable/name-in-operation-scope
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/variable-name]
-          :opt [:alumbra/operation-name
+                :alumbra/variable-name
+                :alumbra/operation-name]))
+
+(defmethod validation-error-class :variable/name-in-fragment-scope
+  [_]
+  (s/keys :req [:alumbra/validation-error-class
+                :alumbra/variable-name
                 :alumbra/fragment-name]))
 
 (defmethod validation-error-class :variable/must-be-used
