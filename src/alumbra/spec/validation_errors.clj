@@ -258,6 +258,7 @@
 (defmethod validation-error-class :variable/default-value-correct
   [_]
   (s/keys :req [:alumbra/validation-error-class
+                :alumbra/value
                 :alumbra/variable-name
                 :alumbra/type-description
                 :alumbra/operation-name]))
