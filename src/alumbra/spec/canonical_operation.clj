@@ -21,8 +21,8 @@
 (s/def :alumbra/canonical-operation
   (s/keys :req-un [::selection-set
                    ::directives
-                   :alumbra/operation-type]
-          :opt-un [:alumbra/operation-name]))
+                   :alumbra/operation-name
+                   :alumbra/operation-type]))
 
 ;; ## Selection
 

@@ -7,7 +7,8 @@
   (s/and string? #(re-matches #"[_a-zA-Z][_0-9a-zA-Z]*" %)))
 
 (s/def :alumbra/operation-name
-  :alumbra/name)
+  ;; the anonymous operation has a `nil` name.
+  (s/nilable :alumbra/name))
 
 (s/def :alumbra/fragment-name
   (s/and :alumbra/name #(not= % "on")))

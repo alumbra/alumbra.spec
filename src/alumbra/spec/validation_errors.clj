@@ -252,22 +252,22 @@
 (defmethod validation-error-class :variable/name-unique
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/variable-name]
-          :opt [:alumbra/operation-name]))
+                :alumbra/variable-name
+                :alumbra/operation-name]))
 
 (defmethod validation-error-class :variable/default-value-correct
   [_]
   (s/keys :req [:alumbra/validation-error-class
                 :alumbra/variable-name
-                :alumbra/type-description]
-          :opt [:alumbra/operation-name]))
+                :alumbra/type-description
+                :alumbra/operation-name]))
 
 (defmethod validation-error-class :variable/input-type
   [_]
   (s/keys :req [:alumbra/validation-error-class
                 :alumbra/variable-name
-                :alumbra/type-description]
-          :opt [:alumbra/operation-name]))
+                :alumbra/type-description
+                :alumbra/operation-name]))
 
 (defmethod validation-error-class :variable/name-in-operation-scope
   [_]
@@ -284,8 +284,8 @@
 (defmethod validation-error-class :variable/must-be-used
   [_]
   (s/keys :req [:alumbra/validation-error-class
-                :alumbra/variable-name]
-          :opt [:alumbra/operation-name]))
+                :alumbra/variable-name
+                :alumbra/operation-name]))
 
 ;; ### Types
 
