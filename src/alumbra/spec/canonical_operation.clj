@@ -91,27 +91,34 @@
 ;; ## Arguments
 
 (s/def ::arguments
-  (s/map-of :alumbra/argument-name ::value
+  (s/map-of :alumbra/argument-name ::value-wrapper
             :gen-max 2))
 
 ;; ## Values
 
+(s/def ::value-wrapper
+  (s/or :scalar ::scalar
+        :object ::object
+        :list   ::list))
+
+(s/def ::scalar
+  (s/keys :req-un [:alumbra/type-name
+                   :alumbra/non-null?
+                   ::value]))
+
 (s/def ::value
   (s/or :string   string?
-        :enum     keyword?
         :integer  integer?
         :float    float?
         :boolean  boolean?
-        :object   ::object
-        :list     ::list
         :null     nil?))
 
 (s/def ::object
-  (s/map-of string? ::value
+  (s/map-of string? ::value-wrapper
             :gen-max 2))
 
 (s/def ::list
-  (s/coll-of ::value
+  (s/coll-of ::value-wrapper
              :gen-max 2))
 
 ;; ## Directives
