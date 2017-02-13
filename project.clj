@@ -1,4 +1,4 @@
-(defproject alumbra/spec "0.1.6-SNAPSHOT"
+(defproject alumbra/spec "0.1.6"
   :description "GraphQL Data Structure Specs for Clojure"
   :url "https://github.com/alumbra/alumbra.spec"
   :license {:name "MIT License"
