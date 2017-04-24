@@ -13,7 +13,6 @@
   #{:operation/name-unique
     :operation/lone-anonymous
     :operation/allowed
-    :operation/required-variables-given
 
     :field/name-in-scope
     :field/selection-mergeable
