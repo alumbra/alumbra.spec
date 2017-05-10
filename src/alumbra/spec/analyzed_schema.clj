@@ -82,8 +82,11 @@
   (s/merge
     (s/keys :req-un [:alumbra/argument-name
                      ::inline-directives]
-            :opt-un [:alumbra/default-value])
+            :opt-un [::default-value])
     ::typed))
+
+(s/def ::default-value
+  ::value)
 
 (s/def ::typed
   ;; For validation, we only need to know whether a field is required and
