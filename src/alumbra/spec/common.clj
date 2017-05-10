@@ -215,9 +215,6 @@
 (s/def :alumbra/argument-value
   :alumbra/value)
 
-(s/def :alumbra/argument-default-value
-  :alumbra/scalar-value)
-
 (s/def :alumbra/default-value
   :alumbra/constant)
 

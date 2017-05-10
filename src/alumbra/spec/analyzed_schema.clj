@@ -81,7 +81,8 @@
 (s/def ::argument
   (s/merge
     (s/keys :req-un [:alumbra/argument-name
-                     ::inline-directives])
+                     ::inline-directives]
+            :opt-un [:alumbra/default-value])
     ::typed))
 
 (s/def ::typed

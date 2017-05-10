@@ -63,7 +63,7 @@
   (s/keys :req [:alumbra/argument-name
                 :alumbra/argument-type
                 :alumbra/metadata]
-          :opt [:alumbra/argument-default-value
+          :opt [:alumbra/default-value
                 :alumbra/directives]))
 
 ;; ## Input Type Definition
