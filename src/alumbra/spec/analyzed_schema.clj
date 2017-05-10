@@ -85,9 +85,6 @@
             :opt-un [::default-value])
     ::typed))
 
-(s/def ::default-value
-  ::value)
-
 (s/def ::typed
   ;; For validation, we only need to know whether a field is required and
   ;; what type it has, while for canonicalisation we need to know how the
@@ -204,3 +201,6 @@
 (s/def ::list
   (s/coll-of ::value
              :gen-max 2))
+
+(s/def ::default-value
+  ::value)
