@@ -55,6 +55,7 @@
 (defmethod field-spec :object
   [_]
   (s/keys :req-un [:alumbra/non-null?
+                   :alumbra/type-name
                    ::field-type
                    ::selection-set]))
 
