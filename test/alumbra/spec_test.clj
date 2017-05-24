@@ -1,6 +1,6 @@
 (ns alumbra.spec-test
   (:require [clojure.test :refer :all]
-            [clojure.spec :as s]
+            [clojure.spec.alpha :as s]
             alumbra.spec))
 
 (deftest t-analyzer-spec

@@ -1,5 +1,5 @@
 (ns alumbra.spec.common
-  (:require [clojure.spec :as s]))
+  (:require [clojure.spec.alpha :as s]))
 
 ;; ## Name
 
