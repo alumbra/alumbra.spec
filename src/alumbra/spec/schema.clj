@@ -1,5 +1,5 @@
 (ns alumbra.spec.schema
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [alumbra.spec common]))
 
 ;; ## Schema

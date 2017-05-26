@@ -1,5 +1,5 @@
 (ns alumbra.spec.parser-errors
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [alumbra.spec common]))
 
 (s/def :alumbra/parser-errors
