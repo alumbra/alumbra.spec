@@ -1,7 +1,8 @@
 (ns alumbra.spec.analyzed-schema
   (:require [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
-            [alumbra.spec type-description common]))
+            [alumbra.spec.common]
+            [alumbra.spec.type-description]))
 
 ;; ## Names
 

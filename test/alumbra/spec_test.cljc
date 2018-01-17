@@ -1,7 +1,8 @@
 (ns alumbra.spec-test
-  (:require [clojure.test :refer :all]
+  (:require [alumbra.spec]
             [clojure.spec.alpha :as s]
-            alumbra.spec))
+            [clojure.test :refer [deftest is]]
+            [clojure.test.check.generators]))
 
 (deftest t-analyzer-spec
   (is (= 100 (count (s/exercise :alumbra/analyzed-schema 100)))))

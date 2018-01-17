@@ -1,5 +1,5 @@
 language: clojure
 sudo: required
-lein: lein2
+script: lein ci
 jdk:
   - oraclejdk8
