@@ -1,11 +1,10 @@
 (ns alumbra.spec
-  (:require [alumbra.spec
-             analyzed-schema
-             canonical-operation
-             document
-             parser-errors
-             schema
-             validation-errors]
+  (:require [alumbra.spec.analyzed-schema]
+            [alumbra.spec.canonical-operation]
+            [alumbra.spec.document]
+            [alumbra.spec.parser-errors]
+            [alumbra.spec.schema]
+            [alumbra.spec.validation-errors]
             [clojure.spec.alpha :as s]))
 
 ;; ## Values

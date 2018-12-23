@@ -1,7 +1,7 @@
 (ns alumbra.spec.type-description
   (:require [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
-            [alumbra.spec common]))
+            [alumbra.spec.common]))
 
 (s/def :alumbra/type-description
   (s/with-gen

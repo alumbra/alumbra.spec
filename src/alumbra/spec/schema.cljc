@@ -1,6 +1,6 @@
 (ns alumbra.spec.schema
   (:require [clojure.spec.alpha :as s]
-            [alumbra.spec common]))
+            [alumbra.spec.common]))
 
 ;; ## Schema
 
